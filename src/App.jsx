@@ -4,7 +4,7 @@ import { enviarPeticion } from "./api";
 import "./App.css";
 
 function App() {
-  const [notificacion, setNotificacion] = useState(null);
+  const [notificaciones, setNotificaciones] = useState([]); // ahora es un array
   const [loading, setLoading] = useState(false);
 
   const manejarPeticion = async () => {
@@ -13,9 +13,9 @@ function App() {
     setLoading(false);
 
     if (respuesta && respuesta.exito) {
-      // Adaptamos la estructura al formato que espera NotificationCard
       const datos = respuesta.datos;
 
+      // Estructura compatible con NotificationCard.jsx
       const nuevaNotificacion = {
         codigo: datos.codigo,
         fecha: datos.fecha.toString(),
@@ -35,7 +35,8 @@ function App() {
         },
       };
 
-      setNotificacion(nuevaNotificacion);
+      // 👇 Agrega la nueva notificación sin borrar las anteriores
+      setNotificaciones((prev) => [nuevaNotificacion, ...prev]);
     } else {
       alert("Error al obtener datos del servidor.");
     }
@@ -48,9 +49,9 @@ function App() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         backgroundColor: "#f3f4f6",
-        padding: "16px",
+        padding: "32px",
       }}
     >
       <button
@@ -64,12 +65,32 @@ function App() {
           borderRadius: "8px",
           cursor: "pointer",
           marginBottom: "20px",
+          fontSize: "16px",
         }}
       >
         {loading ? "Cargando..." : "Enviar Petición"}
       </button>
 
-      {notificacion && <NotificationCard data={notificacion} />}
+      {/* Contenedor de tarjetas */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          width: "100%",
+          maxWidth: "600px",
+        }}
+      >
+        {notificaciones.length === 0 ? (
+          <p style={{ textAlign: "center", color: "#6b7280" }}>
+            No hay notificaciones aún
+          </p>
+        ) : (
+          notificaciones.map((notif, index) => (
+            <NotificationCard key={index} data={notif} />
+          ))
+        )}
+      </div>
     </div>
   );
 }
