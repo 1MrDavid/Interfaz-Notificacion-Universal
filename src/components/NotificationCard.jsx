@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css";
+import "./NotificationCard.css";
 
 const NotificationCard = ({ data }) => {
   if (!data) return null;

@@ -1,70 +1,181 @@
-/* NotificationCard.css */
+/* ====== Layout general ====== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f5f7;
+}
 
+.dashboard {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ====== Sidebar ====== */
+.sidebar {
+  width: 220px;
+  background-color: #1e293b;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.sidebar-logo {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-menu a {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+/* ====== Header ====== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 15px 25px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.header h1 {
+  font-size: 1.3em;
+  color: #1e293b;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+/* ====== Contenido principal ====== */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-area {
+  flex-grow: 1;
+  padding: 25px;
+  overflow-y: auto;
+}
+
+/* ====== Botón ====== */
+.fetch-button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.fetch-button:hover {
+  background-color: #1d4ed8;
+}
+
+.fetch-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ====== Lista de notificaciones ====== */
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.empty-message {
+  text-align: center;
+  color: #64748b;
+}
+
+/* ====== Tarjetas ====== */
 .notification-card {
-  max-width: 400px;
-  margin: 0 auto;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb; /* gris claro */
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .notification-card:hover {
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 
 .notification-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .notification-date {
-  font-size: 0.875rem; /* 14px */
-  color: #6b7280; /* gris medio */
+  color: #6b7280;
+  font-size: 0.9em;
 }
 
 .notification-type {
-  padding: 4px 12px;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.8em;
+  font-weight: bold;
 }
 
 .notification-type.p2c {
-  background-color: #dbeafe; /* azul claro */
-  color: #2563eb; /* azul oscuro */
+  background-color: #dbeafe;
+  color: #1d4ed8;
 }
 
 .notification-type.other {
-  background-color: #f3f4f6; /* gris claro */
-  color: #4b5563; /* gris oscuro */
-}
-
-.notification-amount {
-  font-size: 1.5rem; /* 24px */
-  font-weight: bold;
-  color: #111827;
-  margin-bottom: 4px;
-}
-
-.notification-code {
-  font-size: 0.875rem;
-  color: #4b5563;
-}
-
-.notification-body {
-  border-top: 1px solid #e5e7eb;
-  padding-top: 12px;
-  font-size: 0.875rem;
+  background-color: #e5e7eb;
   color: #374151;
 }
 
-.notification-body p {
-  margin: 4px 0;
+.notification-amount {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #111827;
+}
+
+.notification-code {
+  color: #6b7280;
+  font-size: 0.9em;
 }
 
 .notification-body span {

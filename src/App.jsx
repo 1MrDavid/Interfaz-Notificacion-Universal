@@ -4,7 +4,7 @@ import { enviarPeticion } from "./api";
 import "./App.css";
 
 function App() {
-  const [notificaciones, setNotificaciones] = useState([]); // ahora es un array
+  const [notificaciones, setNotificaciones] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const manejarPeticion = async () => {
@@ -15,7 +15,6 @@ function App() {
     if (respuesta && respuesta.exito) {
       const datos = respuesta.datos;
 
-      // Estructura compatible con NotificationCard.jsx
       const nuevaNotificacion = {
         codigo: datos.codigo,
         fecha: datos.fecha.toString(),
@@ -35,7 +34,6 @@ function App() {
         },
       };
 
-      // 👇 Agrega la nueva notificación sin borrar las anteriores
       setNotificaciones((prev) => [nuevaNotificacion, ...prev]);
     } else {
       alert("Error al obtener datos del servidor.");
@@ -43,53 +41,52 @@ function App() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        backgroundColor: "#f3f4f6",
-        padding: "32px",
-      }}
-    >
-      <button
-        onClick={manejarPeticion}
-        disabled={loading}
-        style={{
-          backgroundColor: "#2563eb",
-          color: "white",
-          border: "none",
-          padding: "10px 20px",
-          borderRadius: "8px",
-          cursor: "pointer",
-          marginBottom: "20px",
-          fontSize: "16px",
-        }}
-      >
-        {loading ? "Cargando..." : "Enviar Petición"}
-      </button>
+    <div className="dashboard">
+      {/* Sidebar */}
+      <aside className="sidebar">
+        <div className="sidebar-logo">🏰 El castillo Informatico</div>
+        <nav className="sidebar-menu">
+          <a href="#" className="active">📩 Notificaciones</a>
+          <a href="#">📊 Reportes</a>
+          <a href="#">⚙️ Configuración</a>
+        </nav>
+      </aside>
 
-      {/* Contenedor de tarjetas */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
-          width: "100%",
-          maxWidth: "600px",
-        }}
-      >
-        {notificaciones.length === 0 ? (
-          <p style={{ textAlign: "center", color: "#6b7280" }}>
-            No hay notificaciones aún
-          </p>
-        ) : (
-          notificaciones.map((notif, index) => (
-            <NotificationCard key={index} data={notif} />
-          ))
-        )}
+      {/* Contenido principal */}
+      <div className="main-content">
+        <header className="header">
+          <h1>Panel de Notificaciones</h1>
+          <div className="user-info">
+            <span className="user-name">Administrador</span>
+            <img
+              src="https://i.pravatar.cc/40"
+              alt="user"
+              className="user-avatar"
+            />
+          </div>
+        </header>
+
+        <div className="content-area">
+          <button
+            onClick={manejarPeticion}
+            disabled={loading}
+            className="fetch-button"
+          >
+            {loading ? "Procesando..." : "Enviar Petición"}
+          </button>
+
+          <div className="notification-list">
+            {notificaciones.length === 0 ? (
+              <p className="empty-message">
+                No hay notificaciones aún. Haz una petición para comenzar.
+              </p>
+            ) : (
+              notificaciones.map((notif, index) => (
+                <NotificationCard key={index} data={notif} />
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
