@@ -14,6 +14,8 @@ const NotificationCard = ({ data }) => {
     objeto
   } = data;
 
+  console.log("NotificationCard data:", data);
+
   return (
     <div className="notification-card">
       <div className="notification-header">
@@ -33,8 +35,8 @@ const NotificationCard = ({ data }) => {
       </div>
 
       <div className="notification-body">
-        <p><span>Banco Origen:</span> {objeto.BancoOrigen}</p>
-        <p><span>Banco Destino:</span> {objeto.BancoDestino}</p>
+        <p><span>Banco Origen:</span> {objeto.bancoOrigen}</p>
+        <p><span>Banco Destino:</span> {objeto.bancoDestino}</p>
         <p><span>Cliente:</span> {objeto.numCliente}</p>
         <p><span>Comercio:</span> {objeto.idComercio}</p>
       </div>

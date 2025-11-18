@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NotificationCard from "./components/NotificationCard";
 import { enviarPeticion } from "./api";
 import "./App.css";
@@ -24,11 +24,11 @@ function App() {
         tipo: datos.tipo,
         objeto: {
           referenciaBancoOrigen: datos.referenciaBancoOrigen,
-          BancoOrigen: datos.BancoOrigen,
-          BancoDestino: datos.BancoDestino,
+          bancoOrigen: datos.bancoOrigen,
+          bancoDestino: datos.bancoDestino,
           numCliente: datos.numCliente,
-          CuentaOrigen: datos.CuentaOrigen,
-          CuentaDestino: datos.CuentaDestino,
+          cuentaOrigen: datos.cuentaOrigen,
+          cuentaDestino: datos.cuentaDestino,
           idComercio: datos.idComercio,
           concepto: datos.concepto,
         },
@@ -39,6 +39,47 @@ function App() {
       alert("Error al obtener datos del servidor.");
     }
   };
+
+  useEffect(() => {
+    const eventSource = new EventSource(
+      "http://localhost:8081/api/v1/not/stream"
+    );
+
+    eventSource.onmessage = (event) => {
+      try {
+        const datos = JSON.parse(event.data);
+
+        const nuevaNotificacion = {
+          codigo: datos.codigo,
+          fecha: datos.fecha,
+          hora: datos.hora,
+          codigoMoneda: datos.codigoMoneda,
+          monto: datos.monto,
+          tipo: datos.tipo,
+          objeto: {
+            referenciaBancoOrigen: datos.referenciaBancoOrigen,
+            bancoOrigen: datos.bancoOrigen,
+            bancoDestino: datos.bancoDestino,
+            numCliente: datos.numCliente,
+            cuentaOrigen: datos.cuentaOrigen,
+            cuentaDestino: datos.cuentaDestino,
+            idComercio: datos.idComercio,
+            concepto: datos.concepto,
+          },
+        };
+
+        setNotificaciones((prev) => [nuevaNotificacion, ...prev]);
+      } catch (err) {
+        console.error("Error procesando evento SSE:", err);
+      }
+    };
+
+    eventSource.onerror = () => {
+      console.error("❌ Error en SSE, reconectando...");
+    };
+
+    return () => eventSource.close();
+  }, []);
 
   return (
     <div className="dashboard">
